@@ -2,7 +2,7 @@ import pytest
 import os
 import zstandard as zstd
 from pg_shuffle import check_page, get_page, shuffle_page, page_size
-from get_table_files import get_table_files
+from pg_get_table_files import get_table_files
 from tabulate import tabulate
 
 

@@ -3,5 +3,5 @@
 !pg_shuffle.py
 !test.py
 !.gitignore
-!test3.py
-!get_table_files.py
+!pg_test.py
+!pg_get_table_files.py
