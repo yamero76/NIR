@@ -6,25 +6,33 @@ from pg_get_table_files import get_table_files
 from tabulate import tabulate
 
 
-@pytest.mark.parametrize("base_name", ['custom', 'postgres', 'sportdb' ]) #
+@pytest.mark.parametrize("base_name", ['custom', 'postgres', 'sportdb'])
 def test(base_name):
     print(f'-----Processing base {base_name}-----')
     table_files = get_table_files(user='postgres', password='12345', db=base_name)
     out = []
+    len_data = 0
+    len_data_new = 0
+    len_compressed = 0
+    len_compressed_new = 0
     for k in table_files.keys():
         v = table_files.get(k)
         c = main(k, v)
         if c[2] != 0:
-            out.append(c)
+            out.append(c[:6])
+            len_data += c[6]
+            len_data_new += c[8]
+            len_compressed += c[7]
+            len_compressed_new += c[9]
     total = []
     total.append('---Total---')
-    total_cr_new = 0
-    total_cr_old = 0
+    total_cr_new = len_data_new / len_compressed_new
+    total_cr_old = len_data / len_compressed
     total_n_shuffled = 0
     total_n_pages = 0
     for k in out:
-        total_cr_new += k[1]
-        total_cr_old += k[2]
+        #total_cr_new += k[1]
+        #total_cr_old += k[2]
         total_n_shuffled += k[4]
         total_n_pages += k[5]
     total.append(total_cr_new)
@@ -76,8 +84,7 @@ def main(name, path):
     #print(f'CR improved: {pct:.2f}%')
     #print(f'Преобразовано страниц: {n_shuffled} из {n_pages}')
 
-
-    c = [name, cr_new, cr_old, pct, n_shuffled, n_pages]
+    c = [name, cr_new, cr_old, pct, n_shuffled, n_pages, len(data), len(compressed), len(data_new), len(compressed_new)]
     return c
 
 

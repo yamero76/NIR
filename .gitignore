@@ -1,7 +1,5 @@
-/*
-!/data
-!pg_shuffle.py
-!test.py
-!.gitignore
-!pg_test.py
-!pg_get_table_files.py
+/data
+/.pytest_cache
+/.idea
+/__pycache__
+test2.py
